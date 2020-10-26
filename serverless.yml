@@ -1,0 +1,24 @@
+service: aws-node-puppeteer
+provider:
+  name: aws
+  profile: 
+  runtime: nodejs12.x
+  region: ap-southeast-1
+
+plugins:
+  - serverless-offline
+  
+package:
+  exclude:
+    - node_modules/puppeteer/.local-chromium/**
+    - .env
+
+functions:
+  hello:
+    handler: handler.hello
+    memorySize: 1536
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: get
