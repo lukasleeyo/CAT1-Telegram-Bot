@@ -12,12 +12,12 @@ let message = '';
 async function startBrowser() {
     // const browser = await chromium.puppeteer.launch({ slowMo: 30 , args: ['--no-sandbox'] }); //slowmo 30ms to ensure credentials are entered in a timely manner
     const browser = await chromium.puppeteer.launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
-        headless: chromium.headless,
-        ignoreHTTPSErrors: true,
-        slowMo: 30 //slowmo 30ms to ensure credentials are entered in a timely manner
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
+      slowMo:30 //slowmo 30ms to ensure credentials are entered in a timely manner
     });
     const page = await browser.newPage();
     return { browser, page };
@@ -81,32 +81,53 @@ async function scrapWeb(url) {
         // console.log(sector);
         // console.log(CAT);
         // console.log(validity);
-        
+
         // display all sector clear if all sector's CAT status is 0
         if (!CAT.includes('1')) {
             message = `All Sectors Clear: ${validity[0]}`;
         }
         else // show which sector is CAT 1
         {
-            let catGrouping = {};
+            var CAT1List = [];
 
-            message += `[CAT 1]\n`;
-
-            // grouping validity period with sectors
+            // add only CAT 1 sectors to new list
             for (var i = 0; i < CAT.length; i++) {
                 if (CAT[i] == 1) {
-                    if (validity[i] in catGrouping) {
-                        catGrouping[validity[i]] += sector[i] + ',';
-
-                    } else {
-                        catGrouping[validity[i]] = sector[i] + ',';
-
-                    }
+                    CAT1List.push({
+                        sector: sector[i],
+                        validity: validity[i]
+                    });
                 }
             }
 
-            for (let key in catGrouping) {
-                message += `${catGrouping[key].slice(0, -1)} (${key})\n`;
+            // add all the validity timing into a list
+            var validityList = [];
+            for (var i = 0; i < CAT1List.length; i++) {
+                validityList.push(CAT1List[i].validity);
+            }
+
+            // using sets to find out unique validity timing
+            const uniqueValidityList = validityList => {
+                return [...new Set(validityList)];
+            };
+
+            message = 'CAT 1\n';
+
+            // loop through unique validity timing and display a group of sectors under same validity timing
+            for (var i = 0; i < uniqueValidityList(validityList).length; i++) {
+                message += uniqueValidityList(validityList)[i] + '\n';
+                message += 'Sector: ';
+                for (var j = 0; j < CAT1List.length; j++) {
+                    if (CAT1List[j].validity == uniqueValidityList(validityList)[i]) {
+                        if (j == CAT1List.length - 1) { // if j reaches last record, remove , and put newline
+                            message += CAT1List[j].sector + '\n';
+                        }
+                        else {
+                            message += CAT1List[j].sector + ', ';
+                        }
+                    }
+                }
+
             }
         }
     }
