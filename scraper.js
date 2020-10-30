@@ -96,10 +96,10 @@ async function scrapWeb(url) {
             for (var i = 0; i < CAT.length; i++) {
                 if (CAT[i] == 1) {
                     if (validity[i] in catGrouping) {
-                        catGrouping[validity[i]] += sector[i] + ',';
+                        catGrouping[validity[i]] += sector[i] + ', ';
 
                     } else {
-                        catGrouping[validity[i]] = sector[i] + ',';
+                        catGrouping[validity[i]] = sector[i] + ', ';
 
                     }
                 }
