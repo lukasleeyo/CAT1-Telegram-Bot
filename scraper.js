@@ -12,12 +12,12 @@ let message = '';
 async function startBrowser() {
     // const browser = await chromium.puppeteer.launch({ slowMo: 30 , args: ['--no-sandbox'] }); //slowmo 30ms to ensure credentials are entered in a timely manner
     const browser = await chromium.puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
-      ignoreHTTPSErrors: true,
-      slowMo:30 //slowmo 30ms to ensure credentials are entered in a timely manner
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath,
+        headless: chromium.headless,
+        ignoreHTTPSErrors: true,
+        slowMo: 30 //slowmo 30ms to ensure credentials are entered in a timely manner
     });
     const page = await browser.newPage();
     return { browser, page };
@@ -82,6 +82,29 @@ async function scrapWeb(url) {
         // console.log(CAT);
         // console.log(validity);
 
+        // CAT = [
+        //     '1', '0', '1', '0', '0', '1',
+        //     '0', '0', '0', '0', '0', '0',
+        //     '0', '0', '0', '0', '0', '0',
+        //     '0', '0', '0', '0', '0', '0',
+        //     '0', '0', '0', '0', '0', '0',
+        //     '1', '1'
+        // ];
+
+        // validity = [
+        //     '1620-1820', '1600-1800', '1620-1820',
+        //     '1600-1800', '1600-1800', '1620-1820',
+        //     '1600-1800', '1600-1800', '1600-1800',
+        //     '1600-1800', '1600-1800', '1600-1800',
+        //     '1600-1800', '1600-1800', '1600-1800',
+        //     '1600-1800', '1600-1800', '1600-1800',
+        //     '1600-1800', '1600-1800', '1600-1800',
+        //     '1600-1800', '1600-1800', '1600-1800',
+        //     '1600-1800', '1600-1800', '1600-1800',
+        //     '1600-1800', '1600-1800', '1600-1800',
+        //     '1630-1830', '1630-1830'
+        // ];
+
         // display all sector clear if all sector's CAT status is 0
         if (!CAT.includes('1')) {
             message = `All Sectors Clear: ${validity[0]}`;
@@ -119,10 +142,11 @@ async function scrapWeb(url) {
                 message += 'Sector: ';
                 for (var j = 0; j < CAT1List.length; j++) {
                     if (CAT1List[j].validity == uniqueValidityList(validityList)[i]) {
-                        if (j == CAT1List.length - 1) { // if j reaches last record, remove , and put newline
+                        if(j == CAT1List.length - 1){
                             message += CAT1List[j].sector + '\n';
                         }
-                        else {
+                        else
+                        {
                             message += CAT1List[j].sector + ', ';
                         }
                     }
