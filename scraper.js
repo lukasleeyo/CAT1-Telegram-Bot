@@ -135,18 +135,24 @@ async function scrapWeb(url) {
             };
 
             message = 'CAT 1\n';
-
+            var i;
             // loop through unique validity timing and display a group of sectors under same validity timing
-            for (var i = 0; i < uniqueValidityList(validityList).length; i++) {
-                message += uniqueValidityList(validityList)[i] + '\n';
-                message += 'Sector: ';
-                for (var j = 0; j < CAT1List.length; j++) {
-                    if (CAT1List[j].validity == uniqueValidityList(validityList)[i]) {
-                        if(j == CAT1List.length - 1){
-                            message += CAT1List[j].sector + '\n';
+            for (i = 0; i < uniqueValidityList(validityList).length; i++) {
+                if (i <= uniqueValidityList(validityList).length - 1) { //if loop reaches last validity group, put new line in front to indicate new group of validity
+                    message += '\n[' + uniqueValidityList(validityList)[i] + ']\n';
+                    message += 'Sector: ';
+                }
+                else {
+                    message += '[' + uniqueValidityList(validityList)[i] + ']\n';
+                    message += 'Sector: ';
+                }
+
+                for (var j = 0; j < CAT1List.length; j++) { 
+                    if (CAT1List[j].validity == uniqueValidityList(validityList)[i]) { //if cat 1 validity records equals to the unique validity, show cat 1 info respectively
+                        if(j == CAT1List.length - 1){ //if loop reaches last record, don't show comma
+                            message += CAT1List[j].sector;
                         }
-                        else
-                        {
+                        else {
                             message += CAT1List[j].sector + ', ';
                         }
                     }
