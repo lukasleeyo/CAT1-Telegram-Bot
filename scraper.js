@@ -107,7 +107,7 @@ async function scrapWeb(url) {
 
         // display all sector clear if all sector's CAT status is 0
         if (!CAT.includes('1')) {
-            message = '[CAT STATUS UPDATE]\n';
+            message = '⚡[CAT Status Update]⚡\n';
             message += `All Sectors Clear: ${validity[0]}`;
         }
         else // show which sector is CAT 1
@@ -134,17 +134,17 @@ async function scrapWeb(url) {
             const uniqueValidityList = validityList => {
                 return [...new Set(validityList)];
             };
-            message = '[CAT STATUS UPDATE]\n';
+            message = '⚡[CAT Status Update]⚡\n';
             message += 'CAT 1:';
             var i;
             // loop through unique validity timing and display a group of sectors under same validity timing
             for (i = 0; i < uniqueValidityList(validityList).length; i++) {
-                if (i <= uniqueValidityList(validityList).length - 1) { //if loop reaches last validity group, put new line in front to indicate new group of validity
+                if (i == 0) {
                     message += '\n[' + uniqueValidityList(validityList)[i] + ']\n';
                     message += 'Sector: ';
                 }
-                else {
-                    message += '[' + uniqueValidityList(validityList)[i] + ']\n';
+                else if (i <= uniqueValidityList(validityList).length - 1) { //if loop reaches last validity group, put new line in front to indicate new group of validity
+                    message += '\n\n[' + uniqueValidityList(validityList)[i] + ']\n';
                     message += 'Sector: ';
                 }
 

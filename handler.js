@@ -1,6 +1,6 @@
 const chromium = require('chrome-aws-lambda');
 
-module.exports.hello = async (event, context, callback) => {
+module.exports.index = async (event, context, callback) => {
 
   const { Telegraf } = require('telegraf');
   const Telegram = require('telegraf/telegram');
