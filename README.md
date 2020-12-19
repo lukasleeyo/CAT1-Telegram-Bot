@@ -1,6 +1,6 @@
 # CAT1-Telegram-Bot
- A telegram bot that tell you CAT 1 status of areas in Singapore.
-* [Link to Telegram bot](https://t.me/cat1jw2)
+ A telegram bot that tell you CAT 1 status of areas in Singapore. Bot is currently disabled.
+ 
 ## Architecture overview diagram
 ![Image of App Architecture](/images/Architecture.PNG)
 
